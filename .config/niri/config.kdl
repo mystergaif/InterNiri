@@ -1,0 +1,219 @@
+// ╔══════════════════════════════════════════════════╗
+// ║ NIRI CONFIG — niri wayland compositor            ║
+// ╚══════════════════════════════════════════════════╝
+
+// ── Автозапуск ─────────────────────────────────────
+spawn-at-startup "dbus-update-activation-environment" "--all"
+spawn-at-startup "/usr/libexec/xdg-desktop-portal-gtk" "-r"
+spawn-at-startup "pipewire"
+spawn-at-startup "pipewire-pulse"
+spawn-at-startup "wireplumber"
+spawn-at-startup "waybar"
+spawn-at-startup "/usr/libexec/polkit-gnome-authentication-agent-1"
+spawn-at-startup "swww-daemon"
+spawn-at-startup "dunst"
+spawn-at-startup "nm-applet" "--indicator"
+spawn-at-startup "quickshell" "-p" "/home/myster_gaif/.config/quickshell/dock.qml"
+
+// ── Ввод ───────────────────────────────────────────
+input {
+    keyboard {
+        xkb {
+            layout "us,ru"
+            options "grp:alt_shift_toggle"
+        }
+    }
+
+    focus-follows-mouse
+    touchpad {
+        tap
+        natural-scroll
+        accel-speed 0.2
+    }
+}
+
+// ── Окружение ──────────────────────────────────────
+environment {
+    QT_QPA_PLATFORM "wayland;xcb"
+    MOZ_ENABLE_WAYLAND "1"
+}
+
+// ── Внешний вид ────────────────────────────────────
+layout {
+    background-color "transparent"      // обязательно для видимости swww
+    gaps 10
+    center-focused-column "never"
+
+    border {
+        off
+        width 2
+        active-color "#cba6f7"
+        inactive-color "#313244"
+        urgent-color "#f38ba8"
+    }
+
+    shadow {
+        on
+        softness 30
+        spread 5
+        color "#00000066"
+        inactive-color "#00000033"
+    }
+
+    focus-ring {
+        off
+    }
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+
+    default-column-width { proportion 0.5; }
+}
+
+overview {
+    backdrop-color "#00000000"          // прозрачный — обои будут видны полностью
+}
+
+// ── Обои swww в backdrop (режим обзора) ───────────
+layer-rule {
+    match namespace="^swww-daemon$"
+    place-within-backdrop true
+}
+
+// ── Правила окон ───────────────────────────────────
+window-rule {
+    geometry-corner-radius 12
+    clip-to-geometry true
+    match app-id="kitty"
+    opacity 1.0
+}
+
+window-rule {
+    geometry-corner-radius 12
+    clip-to-geometry true
+}
+
+window-rule {
+    match app-id="rofi"
+    border { off; }
+    shadow { on; }
+    geometry-corner-radius 12
+    focus-ring { off; }
+    block-out-from "screen-capture"
+}
+
+window-rule {
+    match app-id=".*"
+    draw-border-with-background false
+}
+
+// ── Курсор ─────────────────────────────────────────
+cursor {
+    xcursor-theme "ArcAurora-cursors"
+    xcursor-size 24
+}
+
+// ── Анимации ───────────────────────────────────────
+animations {
+    slowdown 1.0
+}
+
+// ── Привязки клавиш ────────────────────────────────
+binds {
+    // ┌─ Приложения ─────────────────────────────────┐
+    Mod+Return { spawn "kitty"; }
+    Mod+D { spawn "quickshell" "-p" "/home/myster_gaif/.config/quickshell/launcher.qml"; }
+    Mod+E { spawn "nautilus"; }
+    Mod+B { spawn "zen-browser"; }
+    Mod+T { spawn "kitty" "--class" "floating_term"; }
+    Mod+Shift+W { spawn "quickshell" "-p" "/home/myster_gaif/.config/quickshell/wallpaper_picker.qml"; }
+    Mod+Period { spawn "rofi" "-show" "emoji"; }
+    Mod+Escape { spawn "swaylock"; }
+    Mod+Shift+N { spawn "dunstctl" "close-all"; }
+
+    // ┌─ Скриншоты ──────────────────────────────────┐
+    Print { screenshot; }
+    Ctrl+Print { screenshot-screen; }
+    Alt+Print { screenshot-window; }
+    Mod+Shift+S { spawn "bash" "-c" "grim -g \"$(slurp)\" - | wl-copy"; }
+
+    // ┌─ Управление окнами ──────────────────────────┐
+    Mod+Q { close-window; }
+    Mod+F { maximize-column; }
+    Mod+Shift+F { fullscreen-window; }
+    Mod+C { center-column; }
+    Mod+V { toggle-window-floating; }
+    Mod+O { toggle-overview; }
+
+    // ┌─ Размер по пресету и сброс ──────────────────┐
+    Mod+R { switch-preset-column-width; }
+    Mod+Shift+R { reset-window-height; }
+
+    // ┌─ Фокус ──────────────────────────────────────┐
+    Mod+H { focus-column-left; }
+    Mod+L { focus-column-right; }
+    Mod+K { focus-window-up; }
+    Mod+J { focus-window-down; }
+
+    // ┌─ Перемещение окон ───────────────────────────┐
+    Mod+Shift+H { move-column-left; }
+    Mod+Shift+L { move-column-right; }
+    Mod+Shift+K { move-window-up; }
+    Mod+Shift+J { move-window-down; }
+
+    // ┌─ Изменение размера вручную ──────────────────┐
+    Mod+Ctrl+H { set-column-width "-50"; }
+    Mod+Ctrl+L { set-column-width "+50"; }
+    Mod+Ctrl+K { set-window-height "-50"; }
+    Mod+Ctrl+J { set-window-height "+50"; }
+
+    // ┌─ Рабочие пространства — цифры ──────────────┐
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    Mod+0 { focus-workspace 10; }
+
+    Mod+Shift+1 { move-window-to-workspace 1; }
+    Mod+Shift+2 { move-window-to-workspace 2; }
+    Mod+Shift+3 { move-window-to-workspace 3; }
+    Mod+Shift+4 { move-window-to-workspace 4; }
+    Mod+Shift+5 { move-window-to-workspace 5; }
+    Mod+Shift+6 { move-window-to-workspace 6; }
+    Mod+Shift+7 { move-window-to-workspace 7; }
+    Mod+Shift+8 { move-window-to-workspace 8; }
+    Mod+Shift+9 { move-window-to-workspace 9; }
+    Mod+Shift+0 { move-window-to-workspace 10; }
+
+    // ┌─ Рабочие пространства — I/U и Tab ──────────┐
+    Mod+I { focus-workspace-up; }
+    Mod+U { focus-workspace-down; }
+    Mod+Shift+I { move-window-to-workspace-up; }
+    Mod+Shift+U { move-window-to-workspace-down; }
+    Mod+Tab { focus-workspace-down; }
+    Mod+Shift+Tab { focus-workspace-up; }
+
+    // ┌─ Alt+Tab — переключение окон ────────────────┐
+    Alt+Tab { spawn "rofi" "-show" "window" "-show-icons"; }
+
+    // ┌─ Звук ───────────────────────────────────────┐
+    XF86AudioRaiseVolume { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; }
+    XF86AudioLowerVolume { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
+    XF86AudioMute { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+
+    // ┌─ Яркость ────────────────────────────────────┐
+    XF86MonBrightnessUp { spawn "brightnessctl" "set" "5%+"; }
+    XF86MonBrightnessDown { spawn "brightnessctl" "set" "5%-"; }
+
+    // ┌─ Выход ──────────────────────────────────────┐
+    Mod+Shift+E { quit; }
+}

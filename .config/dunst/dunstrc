@@ -1,0 +1,11 @@
+[global]
+    timeout = 5        # секунды до автозакрытия (0 = не закрывать)
+    
+[urgency_low]
+    timeout = 3
+
+[urgency_normal]
+    timeout = 5
+
+[urgency_critical]
+    timeout = 0        # критические не закрываются сами

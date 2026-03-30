@@ -1,0 +1,93 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 34,
+    "margin-top": 6,
+    "margin-left": 10,
+    "margin-right": 10,
+    "spacing": 10,
+
+    "modules-left": [
+        "custom/logo",
+        "niri/workspaces",
+        "custom/niri-windows"
+    ],
+    "modules-center": [
+        "custom/cava"
+    ],
+    "modules-right": [
+        "pulseaudio",
+        "battery",
+        "network",
+        "clock",
+        "tray"
+    ],
+
+    "custom/logo": {
+        "format": "󰣨",
+        "tooltip": false,
+        "on-click": "rofi -show drun"
+    },
+
+    "niri/workspaces": {
+        "format": "{index}",
+        "format-icons": {
+            "active": "●",
+            "default": "○"
+        }
+    },
+
+    "custom/niri-windows": {
+        "format": "{}",
+        "interval": 2,
+        "exec": "~/.config/waybar/scripts/niri-windows.py",
+        "return-type": "json",
+        "tooltip": true
+    },
+
+    "custom/cava": {
+        "exec": "~/.config/waybar/scripts/waybar-cava.sh",
+        "format": "{}",
+        "tooltip": false
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟",
+        "format-icons": {
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "on-click": "pavucontrol"
+    },
+
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": "󰂄 {capacity}%",
+        "format-alt": "{icon} {time}",
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    },
+
+    "network": {
+        "format-wifi": "󰖩 {essid}",
+        "format-ethernet": "󰈀 {ifname}",
+        "format-disconnected": "󰖪 Disconnected",
+        "tooltip-format": "{essid} {signalStrength}%",
+        "on-click": "nm-connection-editor"
+    },
+
+    "clock": {
+        "format": "󰥔 {:%H:%M}",
+        "format-alt": "󰃭 {:%Y-%m-%d}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>"
+    },
+
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10
+    }
+}

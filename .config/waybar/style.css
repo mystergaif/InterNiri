@@ -1,0 +1,146 @@
+/* Premium Waybar Style — Glassmorphism & Pill Layout */
+* {
+    font-family: "JetBrainsMono Nerd Font", "Inter", monospace;
+    font-size: 13.5px;
+    font-weight: 600;
+}
+
+window#waybar {
+    background: transparent;
+    border: none;
+}
+
+/* Common Pill Style */
+.modules-left,
+.modules-center,
+.modules-right {
+    margin: 4px 6px;
+    padding: 2px 2px;
+}
+
+/* Individual Module Styles */
+#workspaces,
+#custom-logo,
+#custom-niri-windows,
+#custom-cava,
+#pulseaudio,
+#battery,
+#network,
+#clock,
+#tray {
+    background: rgba(15, 15, 25, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08); /* Gloss effect border */
+    border-radius: 12px;
+    padding: 0 16px;
+    margin: 0 5px;
+    color: #cdd6f4;
+    transition: all 0.3s cubic-bezier(.55,-0.04,.3,1.44); /* Smooth bounce */
+}
+
+/* Logo Module */
+#custom-logo {
+    color: #cba6f7;
+    font-size: 18px;
+    padding: 0 12px;
+}
+#custom-logo:hover {
+    color: #f5c2e7;
+    background: rgba(203, 166, 247, 0.2);
+}
+
+/* Workspaces */
+#workspaces button {
+    background: transparent;
+    border: none;
+    border-radius: 999px;
+    color: rgba(205, 214, 244, 0.4);
+    padding: 2px 8px;
+    margin: 3px 2px;
+    font-size: 11px;
+    transition: all 0.3s ease;
+}
+
+#workspaces button:hover {
+    background: rgba(203, 166, 247, 0.1);
+    color: #cdd6f4;
+}
+
+#workspaces button.active,
+#workspaces button.focused {
+    background: rgba(203, 166, 247, 0.2);
+    color: #cba6f7;
+    box-shadow: 0 0 10px rgba(203, 166, 247, 0.25);
+    margin: 3px 6px; /* Expand active ws */
+}
+
+#workspaces button.urgent {
+    background: rgba(243, 139, 168, 0.2);
+    color: #f38ba8;
+}
+
+/* CAVA */
+#custom-cava {
+    background: rgba(15, 15, 25, 0.85); /* Darker for better visibility */
+    color: #cba6f7;
+    font-size: 16px;
+    padding: 0 24px;
+    min-width: 120px;
+}
+
+/* Window Count */
+#custom-niri-windows {
+    color: #fab387;
+    padding: 0 12px;
+}
+
+/* Right Group Styling */
+#pulseaudio {
+    color: #a6e3a1;
+}
+
+#pulseaudio.muted {
+    color: rgba(243, 139, 168, 0.5);
+}
+
+#battery {
+    color: #cba6f7;
+}
+
+#battery.warning {
+    color: #fab387;
+}
+
+#battery.critical {
+    color: #f38ba8;
+    animation: blink 1s infinite linear;
+}
+
+@keyframes blink {
+    to {
+        background: rgba(243, 139, 168, 0.2);
+        color: #f38ba8;
+    }
+}
+
+#network {
+    color: #94e2d5;
+}
+
+#clock {
+    color: #cdd6f4;
+    background: linear-gradient(45deg, rgba(88, 91, 112, 0.6), rgba(69, 71, 90, 0.6));
+}
+
+#clock:hover {
+    background: rgba(25, 25, 40, 0.95);
+    color: #89b4fa;
+}
+
+#tray {
+    padding: 0 12px;
+}
+
+/* Module Hover Highlights */
+#pulseaudio:hover, #battery:hover, #network:hover, #custom-niri-windows:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
